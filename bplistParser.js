@@ -158,6 +158,9 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
       var length = Math.pow(2, objInfo);
       if (length > 4) {
         var data = buffer.slice(offset + 1, offset + 1 + length);
+        if (data.readInt32BE(0) == -1) {
+          return data.readInt32BE(4)
+        }
         var str = bufferToHexString(data);
         return bigInt(str, 16);
       } if (length < exports.maxObjectSize) {
